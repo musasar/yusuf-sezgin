@@ -13,357 +13,271 @@
   <style>
     :root {
       --bg:#02140f;
-      --bg-soft:#052019;
-      --card:#071f18;
-      --card-soft:#0d2e24;
-      --accent:#31c27c;
-      --accent-soft:rgba(49,194,124,0.18);
+      --bg-soft:#06261c;
+      --card:#0a2a20;
+      --accent:#3bd68b;
       --text:#f5f5f5;
-      --muted:#c4d5ce;
-      --line:rgba(255,255,255,0.06);
-      --danger:#f97373;
+      --muted:#c7dcd5;
     }
 
     * { margin:0; padding:0; box-sizing:border-box; }
-    html,body{ scroll-behavior:smooth; }
-
-    body {
-      font-family:'Poppins',system-ui;
-      background:
-        radial-gradient(circle at top left,#174739 0,transparent 55%),
-        radial-gradient(circle at bottom right,#0b3b2b 0,transparent 55%),
-        var(--bg);
+    body{
+      font-family:'Poppins',sans-serif;
+      background:var(--bg);
       color:var(--text);
       line-height:1.6;
+      -webkit-font-smoothing:antialiased;
     }
 
     a { color:inherit; text-decoration:none; }
 
     .page-wrap{ min-height:100vh; display:flex; flex-direction:column; }
 
+    /* HEADER */
     header{
       position:sticky; top:0; z-index:50;
-      backdrop-filter:blur(18px);
-      background:linear-gradient(to bottom,rgba(0,0,0,0.7),transparent);
-      border-bottom:1px solid rgba(255,255,255,0.04);
+      background:rgba(0,0,0,0.55);
+      backdrop-filter:blur(14px);
+      border-bottom:1px solid rgba(255,255,255,0.06);
     }
 
     .nav{
-      max-width:1080px; margin:0 auto;
-      padding:12px 20px;
-      display:flex; align-items:center; justify-content:space-between;
-      gap:24px;
+      max-width:1100px; margin:auto;
+      padding:14px 20px;
+      display:flex; justify-content:space-between; align-items:center;
     }
 
-    .nav-left{ display:flex; align-items:center; gap:10px; }
+    .nav-left{ display:flex; align-items:center; gap:12px; }
 
-    .logo-dot{
-      width:32px; height:32px; border-radius:999px;
-      background:radial-gradient(circle at 30% 20%,#8df4be 0,#31c27c 30%,#0b3b2b 75%);
-      box-shadow:0 0 0 1px rgba(255,255,255,0.25),0 0 35px rgba(49,194,124,0.55);
+    .logo-img-wrap{
+      width:46px; height:46px;
+      border-radius:12px;
+      overflow:hidden;
+      background:rgba(255,255,255,0.08);
+      border:1px solid rgba(255,255,255,0.12);
     }
+    .logo-img{ width:100%; height:100%; object-fit:cover; }
 
-    .brand-title{ font-size:16px; font-weight:600; text-transform:uppercase; }
-    .brand-sub{ font-size:11px; text-transform:uppercase; letter-spacing:0.16em; color:var(--muted); }
-
-    .nav-links{ display:flex; gap:18px; font-size:13px; text-transform:uppercase; color:var(--muted); }
-    .nav-links a{ padding:4px 0; position:relative; }
-    .nav-links a::after{
-      content:""; position:absolute; left:0; bottom:-4px; width:0; height:1px;
-      background:var(--accent); transition:width .24s ease;
+    .brand-title{
+      font-size:17px; font-weight:600; letter-spacing:0.03em;
     }
-    .nav-links a:hover::after{ width:100%; }
-
-    .nav-cta{ display:flex; align-items:center; gap:10px; }
-
-    .badge{
-      font-size:11px; padding:3px 10px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,0.14);
-      background:rgba(0,0,0,0.45);
-      color:var(--muted);
-    }
-    .badge span{ color:var(--accent); font-weight:500; }
-
-    .btn{
-      border:none; cursor:pointer; padding:8px 16px;
-      border-radius:999px;
-      background:linear-gradient(135deg,#31c27c,#25a065);
-      color:var(--bg); font-weight:600; display:inline-flex; gap:8px;
-      box-shadow:0 10px 30px rgba(0,0,0,0.55);
+    .brand-sub{
+      font-size:11px; opacity:0.7;
+      letter-spacing:0.12em;
       text-transform:uppercase;
-      letter-spacing:0.12em;
+      margin-top:-4px;
     }
 
+    /* NAV LINKS */
+    .nav-links{
+      display:flex; gap:20px; font-size:13px;
+      text-transform:uppercase; opacity:0.85; letter-spacing:0.1em;
+    }
+    .nav-links a:hover{ color:var(--accent); }
+
+    /* BUTTONS */
+    .btn{
+      padding:9px 18px; border-radius:999px;
+      background:linear-gradient(135deg,var(--accent),#27a668);
+      color:#00140d; font-weight:600; font-size:13px;
+      box-shadow:0 4px 16px rgba(0,0,0,0.45);
+    }
     .btn-outline{
-      background:transparent;
-      border:1px solid rgba(255,255,255,0.16);
-      color:var(--text);
-      padding:7px 14px;
-      letter-spacing:0.12em;
+      padding:8px 16px; border-radius:999px; font-size:13px;
+      border:1px solid rgba(255,255,255,0.22);
+      background:rgba(0,0,0,0.4);
+    }
+    .btn-outline:hover{
+      background:rgba(255,255,255,0.06);
     }
 
-    main{ flex:1; }
-    .section{ max-width:1080px; margin:0 auto; padding:34px 20px 60px; }
+    /* MOBILE MENU BUTTON */
+    .mobile-menu-btn{
+      display:none;
+      cursor:pointer;
+      font-size:26px;
+      user-select:none;
+    }
+
+    @media(max-width:820px){
+      .nav-links{ display:none; }
+      .mobile-menu-btn{ display:block; }
+
+      .mobile-menu{
+        display:none;
+        flex-direction:column;
+        gap:18px;
+        padding:24px 20px;
+        background:rgba(0,0,0,0.75);
+        border-top:1px solid rgba(255,255,255,0.1);
+      }
+      .mobile-menu a{
+        font-size:15px;
+        opacity:0.85;
+      }
+      .mobile-menu.show{ display:flex; }
+    }
+
+    /* SECTION */
+    .section{
+      max-width:1100px; margin:auto;
+      padding:50px 20px;
+    }
+
+    .section-title{
+      font-size:26px; font-weight:600;
+      margin-bottom:20px;
+      letter-spacing:0.02em;
+    }
+
+    .section-tag{
+      text-transform:uppercase;
+      font-size:12px;
+      opacity:0.65;
+      letter-spacing:0.18em;
+      margin-bottom:8px;
+    }
 
     /* HERO */
     .hero{
-      display:grid; grid-template-columns:1.25fr 1fr;
-      gap:40px; padding:40px 0;
+      display:grid;
+      grid-template-columns:1.2fr 1fr;
+      gap:40px;
       align-items:center;
     }
+    @media(max-width:900px){
+      .hero{
+        grid-template-columns:1fr;
+        text-align:center;
+      }
+    }
 
-    .hero-pre{ font-size:12px; letter-spacing:0.22em; text-transform:uppercase; color:var(--muted); margin-bottom:12px; }
-    .hero-title{ font-size:34px; line-height:1.15; font-weight:700; margin-bottom:14px; }
+    .hero-pre{
+      font-size:12px;
+      opacity:0.7;
+      letter-spacing:0.22em;
+      text-transform:uppercase;
+      margin-bottom:10px;
+    }
+
+    .hero-title{
+      font-size:36px; font-weight:700;
+      line-height:1.18;
+      margin-bottom:16px;
+    }
     .hero-title span{ color:var(--accent); }
 
-    .hero-tagline{ font-size:15px; color:var(--muted); max-width:460px; margin-bottom:26px; }
-
-    .hero-highlights{ display:flex; flex-wrap:wrap; gap:12px; margin-bottom:24px; }
-    .hero-chip{
-      font-size:12px; padding:8px 13px; border-radius:999px;
-      background:rgba(0,0,0,0.5);
-      border:1px solid rgba(255,255,255,0.1);
-      display:flex; align-items:center; gap:8px;
+    .hero-tagline{
+      color:var(--muted);
+      font-size:15px;
+      max-width:480px;
+      opacity:0.9;
+      margin-bottom:26px;
     }
-    .hero-chip-dot{
-      width:7px; height:7px; border-radius:999px;
-      background:var(--accent); box-shadow:0 0 12px rgba(49,194,124,0.8);
+    @media(max-width:900px){ .hero-tagline{ margin:auto; } }
+
+    .hero-highlights{
+      display:flex; flex-wrap:wrap; gap:12px;
+      margin-bottom:24px;
+    }
+
+    .hero-chip{
+      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,0.08);
+      padding:8px 13px; border-radius:999px;
+      font-size:12px; display:flex; align-items:center; gap:8px;
     }
 
     .hero-card{
-      padding:20px; border-radius:24px;
-      background:linear-gradient(135deg,rgba(4,33,24,0.98),rgba(6,48,33,0.98));
+      background:linear-gradient(135deg,#05291e,#073728);
       border:1px solid rgba(255,255,255,0.08);
-      box-shadow:0 22px 45px rgba(0,0,0,0.75);
+      padding:22px; border-radius:24px;
+      box-shadow:0 20px 40px rgba(0,0,0,0.6);
     }
 
-    .hero-card-inner{ display:flex; flex-direction:column; gap:16px; }
-    .agent-info{ display:flex; align-items:center; gap:14px; }
+    .agent-info{
+      display:flex; gap:14px; align-items:center;
+      margin-bottom:16px;
+    }
 
     .agent-avatar-wrap{
-      width:84px; height:84px; border-radius:28px; padding:3px;
-      background:radial-gradient(circle at 20% 0,#8df4be 0,#31c27c 40%,#02140f 100%);
+      width:90px; height:90px;
+      padding:3px; border-radius:24px;
+      background:linear-gradient(135deg,#3bd68b,#0f3a2a);
     }
-    .agent-avatar-inner{ width:100%; height:100%; border-radius:22px; overflow:hidden; }
-    .agent-avatar-inner img{ width:100%; height:100%; object-fit:cover; }
+    .agent-avatar-inner{
+      width:100%; height:100%; overflow:hidden;
+      border-radius:20px;
+    }
+    .agent-avatar-inner img{
+      width:100%; height:100%; object-fit:cover;
+    }
 
-    .agent-name{ font-size:18px; font-weight:600; }
-    .agent-role{ font-size:12px; letter-spacing:0.18em; color:var(--muted); text-transform:uppercase; }
-    .agent-company{ font-size:12px; color:var(--accent); }
+    .agent-name{ font-size:19px; font-weight:600; }
+    .agent-role{ font-size:12px; opacity:0.75; text-transform:uppercase; }
+    .agent-company{ font-size:12px; color:var(--accent); margin-top:4px; }
 
     .agent-badge{
-      font-size:11px; padding:6px 10px; border-radius:999px;
-      background:rgba(0,0,0,0.6); border:1px solid rgba(255,255,255,0.16);
-      margin-top:8px; display:inline-flex; gap:6px;
-    }
-
-    /* ABOUT, SERVICES, LISTINGS — (SENİN DOSYADAN BİREBİR) */
-    /* ABOUT */
-    .about-grid{
-      display:grid;
-      grid-template-columns:1.1fr 1fr;
-      gap:28px;
-    }
-    .about-text{ font-size:14px; color:var(--muted); }
-    .about-highlight{
-      margin-top:10px; padding:12px 14px; border-radius:16px;
-      background:rgba(0,0,0,0.5);
-      border:1px solid rgba(255,255,255,0.06);
-      font-size:12px; color:var(--muted);
-    }
-    .about-cards{
-      display:grid; grid-template-columns:repeat(2,1fr); gap:14px;
-    }
-    .about-card{
-      padding:14px; border-radius:16px;
-      background:rgba(0,0,0,0.6);
-      border:1px solid rgba(255,255,255,0.08);
-      font-size:12px;
-    }
-    .about-card strong{ display:block; font-size:13px; margin-bottom:4px; color:var(--accent); }
-
-    /* SERVICES */
-    .service-grid{
-      display:grid; grid-template-columns:repeat(3,1fr); gap:18px;
-    }
-    .service-card{
-      padding:16px; border-radius:18px;
-      background:rgba(0,0,0,0.6);
-      border:1px solid rgba(255,255,255,0.06);
-      font-size:13px; display:flex; flex-direction:column; gap:10px;
-    }
-    .service-icon{
-      font-size:18px; padding:6px 10px;
-      border-radius:999px;
-      background:var(--accent-soft);
-    }
-    .service-title{ font-weight:500; }
-    .service-text{ font-size:12px; color:var(--muted); }
-    .service-tags{ display:flex; flex-wrap:wrap; gap:6px; }
-    .service-tag{
-      font-size:11px; padding:4px 9px;
-      border-radius:999px;
+      background:rgba(0,0,0,0.55);
       border:1px solid rgba(255,255,255,0.12);
-    }
-
-    /* PORTFÖY */
-    .listing-grid{
-      display:grid;
-      grid-template-columns:repeat(3,1fr);
-      gap:18px;
-    }
-    .listing-card{
-      border-radius:16px;
-      background:rgba(0,0,0,0.6);
-      border:1px solid rgba(255,255,255,0.07);
-      overflow:hidden;
-      display:flex;
-      flex-direction:column;
-      min-height:180px;
-    }
-    .listing-top{
-      padding:12px 14px 8px;
-      border-bottom:1px solid rgba(255,255,255,0.05);
-    }
-    .listing-badge{
-      font-size:11px; padding:4px 9px; border-radius:999px;
-      background:rgba(0,0,0,0.6); border:1px solid rgba(255,255,255,0.1);
-      display:inline-flex; gap:6px; margin-bottom:6px;
-    }
-    .listing-badge span{
-      font-size:9px; padding:2px 6px; border-radius:999px;
-      background:rgba(49,194,124,0.12);
-      border:1px solid rgba(49,194,124,0.6);
-    }
-    .listing-title{ font-size:14px; font-weight:500; margin-bottom:4px; }
-    .listing-location{ font-size:11px; color:var(--muted); }
-
-    .listing-bottom{
-      padding:10px 14px 12px;
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-end;
-      font-size:12px;
-    }
-    .listing-meta{ color:var(--muted); font-size:11px; }
-    .listing-meta strong{ color:var(--text); font-size:12px; display:block; }
-    .listing-pill-row{ display:flex; gap:6px; flex-wrap:wrap; margin-top:4px; }
-    .listing-pill{
-      font-size:10px; padding:3px 7px;
-      border-radius:999px; border:1px solid rgba(255,255,255,0.08);
-    }
-
-    /* PDF */
-    .pdf-wrap{
-      margin-top:30px; padding:20px;
-      border-radius:16px;
-      background:rgba(0,0,0,0.35);
-      border:1px solid rgba(255,255,255,0.15);
-    }
-    iframe{
-      width:100%; height:600px; border:none; border-radius:12px;
-    }
-
-    /* OFİS BİLGİLERİ */
-    .office-box{
-      margin-top:40px; padding:26px;
-      border-radius:18px;
-      background:rgba(0,0,0,0.4);
-      border:1px solid rgba(255,255,255,0.08);
-    }
-    .office-title{
-      font-size:20px; font-weight:600; letter-spacing:0.06em;
-      color:var(--accent); margin-bottom:12px;
-    }
-    .office-row{ margin-bottom:12px; }
-    .office-label{ font-size:13px; font-weight:600; color:var(--accent); }
-    .office-value{ font-size:13px; color:var(--muted); }
-
-    /* CONTACT */
-    .two-col{
-      display:grid;
-      grid-template-columns:1.15fr 1fr;
-      gap:24px;
-    }
-    .testimonial-card{
-      padding:16px; border-radius:18px;
-      background:rgba(0,0,0,0.6);
-      border:1px solid rgba(255,255,255,0.06);
-      font-size:13px; color:var(--muted);
-      position:relative; overflow:hidden;
-    }
-    .testimonial-card::before{
-      content:"“"; position:absolute;
-      top:-30px; left:-6px;
-      font-size:86px; color:rgba(255,255,255,0.04);
-    }
-    .testimonial-footer{
-      margin-top:10px; display:flex;
-      justify-content:space-between; align-items:center;
-    }
-    .testimonial-name{ color:var(--text); font-weight:500; }
-    .testimonial-role{ color:var(--muted); }
-
-    .contact-card{
-      padding:18px; border-radius:18px;
-      background:rgba(0,0,0,0.7);
-      border:1px solid rgba(255,255,255,0.07);
-      font-size:13px;
-    }
-
-    .contact-pill{
-      font-size:12px; padding:6px 12px;
+      padding:6px 12px;
+      display:inline-flex; gap:6px;
       border-radius:999px;
-      border:1px solid rgba(255,255,255,0.1);
-      background:rgba(0,0,0,0.6);
+      font-size:11px;
+      margin-top:10px;
     }
 
-    footer{
-      text-align:center;
-      padding:20px;
-      margin-top:40px;
-      border-top:1px solid rgba(255,255,255,0.1);
-      background:rgba(0,0,0,0.4);
-      font-size:12px; color:var(--muted);
+    .hero-tag-card{
+      margin-top:10px;
+      color:var(--muted);
+      font-size:13px;
+      opacity:0.85;
     }
-    .logo-img-wrap {
-  width: 42px;
-  height: 42px;
-  border-radius: 10px;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.1);
-}
 
-.logo-img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
+    .hero-card-bottom{
+      margin-top:20px;
+      display:flex; justify-content:space-between; align-items:flex-end;
+    }
+    @media(max-width:900px){
+      .hero-card-bottom{ flex-direction:column; gap:14px; text-align:center; }
+    }
 
+    .pill{
+      border-radius:999px; padding:5px 10px;
+      background:rgba(255,255,255,0.06);
+      border:1px solid rgba(255,255,255,0.12);
+      font-size:11px;
+      margin-right:6px;
+    }
+
+    .hero-metric{
+      font-size:12px; opacity:0.75; text-align:right;
+    }
+    .hero-metric strong{
+      display:block;
+      font-size:16px;
+      color:var(--accent);
+    }
   </style>
 </head>
 
 <body>
+
 <div class="page-wrap">
 
-<!-- NAVBAR -->
+<!-- HEADER -->
 <header>
   <nav class="nav">
-    <div class="nav-left">
-  <div class="logo-img-wrap">
-    <img src="logo.jpg" alt="Yusuf Logo" class="logo-img">
-  </div>
-  <div>
-    <div class="brand-title">Yusuf</div>
-    <div class="brand-sub">Gayrimenkul Danışmanı</div>
-  </div>
-</div>
 
+    <div class="nav-left">
+      <div class="logo-img-wrap">
+        <img src="logo.jpg" class="logo-img" alt="Logo">
+      </div>
+      <div>
+        <div class="brand-title">Yusuf</div>
+        <div class="brand-sub">Gayrimenkul Danışmanı</div>
+      </div>
+    </div>
 
     <div class="nav-links">
       <a href="#hakkinda">Hakkımda</a>
@@ -373,114 +287,144 @@
       <a href="#iletisim">İletişim</a>
     </div>
 
+    <div class="mobile-menu-btn" onclick="toggleMenu()">☰</div>
+
     <div class="nav-cta">
-      <div class="badge"><span>BH&GRE Cadde</span> | İstanbul</div>
-      <a href="https://www.instagram.com/yusuf.bhgre_/" target="_blank" class="btn-outline">Instagram</a>
+      <a class="btn-outline" href="https://www.instagram.com/yusuf.bhgre_/" target="_blank">Instagram</a>
     </div>
   </nav>
+
 </header>
+
 <main>
 
 <!-- HERO -->
 <section class="section">
   <div class="hero">
+
     <div>
-      <div class="hero-pre">İstanbul & çevresi</div>
+      <div class="hero-pre">İstanbul & Çevresi</div>
 
       <h1 class="hero-title">
         <span>Güvenilir</span> bir gayrimenkul danışmanı ile <br> doğru adıma başlayın.
       </h1>
 
       <p class="hero-tagline">
-        Daire, ofis, arsa veya yatırım… Yanınızda şeffaf, ulaşılabilir ve takip eden bir danışman olduğunda süreç hem hızlı hem de konforlu ilerler.
+        Daire, ofis, arsa veya yatırım… Şeffaf, ulaşılabilir ve düzenli iletişim sunan bir danışmanla süreç hem hızlı hem konforlu ilerler.
       </p>
 
       <div class="hero-highlights">
-        <div class="hero-chip">
-          <span class="hero-chip-dot"></span> Satış & kiralama süreçlerinde uçtan uca takip
-        </div>
-        <div class="hero-chip">
-          <span class="hero-chip-dot"></span> BH&GRE Cadde profesyonel hizmet
-        </div>
+        <div class="hero-chip"><span class="hero-chip-dot"></span> Satış & Kiralama takibi</div>
+        <div class="hero-chip"><span class="hero-chip-dot"></span> BH&GRE Cadde güvencesi</div>
       </div>
 
-      <div class="hero-actions">
-        <a href="#iletisim" class="btn">Randevu Oluştur ➜</a>
+      <div style="display:flex; gap:12px; flex-wrap:wrap;">
+        <a href="#iletisim" class="btn">Randevu Oluştur</a>
         <a href="#portfoy" class="btn-outline">Portföy</a>
       </div>
     </div>
 
     <div class="hero-card">
-      <div class="hero-card-inner">
-        <div class="agent-info">
-          <div class="agent-avatar-wrap">
-            <div class="agent-avatar-inner">
-              <img src="yusuf.jpeg" alt="Yusuf">
-            </div>
-          </div>
-
-          <div class="agent-main">
-            <div class="agent-name">Yusuf</div>
-            <div class="agent-role">Gayrimenkul Danışmanı</div>
-            <div class="agent-company">Better Homes and Gardens Real Estate Cadde</div>
-
-            <div class="agent-badge">
-              <span class="badge-pill">İstanbul</span> Profesyonel danışmanlık
-            </div>
+      <div class="agent-info">
+        <div class="agent-avatar-wrap">
+          <div class="agent-avatar-inner">
+            <img src="yusuf.jpeg" alt="Yusuf">
           </div>
         </div>
-
-        <div class="hero-tag-card">
-          İlk görüşmeden tapu teslimine kadar her adımda yanınızda olan bir danışmanlık anlayışı.
-        </div>
-
-        <div class="hero-card-bottom">
-          <div class="hero-pills">
-            <div class="pill">Satılık</div>
-            <div class="pill">Kiralık</div>
-            <div class="pill">Yatırım</div>
-          </div>
-          <div class="hero-metric">
-            <strong>Size özel plan</strong>
-            Bütçe & hedef odaklı yol haritası
-          </div>
+        <div>
+          <div class="agent-name">Yusuf</div>
+          <div class="agent-role">Gayrimenkul Danışmanı</div>
+          <div class="agent-company">BH&GRE Cadde</div>
+          <div class="agent-badge"><span class="badge-pill">İstanbul Danışmanlık</span></div>
         </div>
       </div>
+
+      <div class="hero-tag-card">İlk görüşmeden tapu teslimine kadar tam destek.</div>
+
+      <div class="hero-card-bottom">
+        <div>
+          <span class="pill">Satılık</span>
+          <span class="pill">Kiralık</span>
+          <span class="pill">Yatırım</span>
+        </div>
+
+        <div class="hero-metric">
+          <strong>Size özel plan</strong>
+          Bütçe & hedef analizi
+        </div>
+      </div>
+
     </div>
+
   </div>
 </section>
-
 <!-- HAKKINDA -->
 <section id="hakkinda" class="section">
   <div class="section-tag">Yusuf kimdir?</div>
   <h2 class="section-title">İlişki odaklı danışmanlık</h2>
 
   <div class="about-grid">
-    <div>
+    <div class="about-text-block">
       <p class="about-text">
-        Gayrimenkul süreci çoğu zaman karmaşık olabilir. Yanlış fiyatlama, eksik evrak ya da acele kararlar ileride pişmanlık yaratabilir.
+        Gayrimenkul süreci çoğu zaman karmaşık olabilir. Yanlış fiyatlama, eksik evrak ve acele kararlar 
+        ileride büyük kayıplara neden olabilir.
         <br><br>
-        Bu nedenle şeffaflık, bilgi ve düzenli iletişim benim için en önemli üç prensip.
+        Bu nedenle her müşterime şeffaflık, bilgi ve düzenli iletişim temelinde hizmet sunuyorum.
       </p>
 
       <div class="about-highlight">
-        <strong>Ne sunuyorum?</strong><br>
-        Doğru fiyat analizi, bölge raporları, profesyonel ilan hazırlığı ve sürecin her adımında düzenli bilgilendirme.
+        <strong>Neler sağlıyorum?</strong><br>
+        Doğru fiyat analizi, profesyonel ilan hazırlığı, bölge raporları ve sürecin her aşamasında düzenli bilgilendirme.
       </div>
     </div>
 
     <div class="about-cards">
       <div class="about-card">
         <strong>Satıcılar için</strong>
-        Doğru fiyat ve profesyonel pazarlama ile en iyi değeri hedefliyorum.
+        Doğru fiyatlama ve profesyonel pazarlama ile maksimum değer.
       </div>
-      <div class="about-card">
+
+        <div class="about-card">
         <strong>Alıcılar için</strong>
-        Filtrelenmiş portföy, analiz ve avantaj–dezavantaj karşılaştırması.
+        Filtrelenmiş portföy, detaylı karşılaştırma ve avantaj–dezavantaj analizi.
       </div>
     </div>
   </div>
 </section>
+
+<style>
+  .about-grid{
+    display:grid;
+    grid-template-columns:1.2fr 1fr;
+    gap:30px;
+  }
+  @media(max-width:900px){
+    .about-grid{ grid-template-columns:1fr; }
+  }
+
+  .about-text{ font-size:14px; color:var(--muted); }
+  .about-highlight{
+    margin-top:14px; padding:14px 16px;
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:14px;
+    font-size:13px;
+  }
+
+  .about-cards{
+    display:grid; gap:14px;
+  }
+  .about-card{
+    padding:14px; border-radius:16px;
+    background:rgba(255,255,255,0.03);
+    border:1px solid rgba(255,255,255,0.06);
+    font-size:13px; color:var(--muted);
+  }
+  .about-card strong{
+    font-size:14px; color:var(--accent);
+    display:block; margin-bottom:4px;
+  }
+</style>
 
 <!-- HİZMETLER -->
 <section id="hizmetler" class="section">
@@ -492,83 +436,139 @@
     <div class="service-card">
       <div class="service-icon">🏡</div>
       <div class="service-title">Satış & Kiralama Danışmanlığı</div>
-      <div class="service-text">Piyasa analizi, ilan hazırlığı, alıcı–kiracı eşleştirme.</div>
+      <div class="service-text">
+        Piyasa analizi, ilan hazırlığı ve doğru müşteri eşleşmesi.
+      </div>
     </div>
 
     <div class="service-card">
       <div class="service-icon">📊</div>
-      <div class="service-title">Yatırım Odaklı Çalışma</div>
-      <div class="service-text">Getiri potansiyeli yüksek bölgeler ve yeni proje fırsatları.</div>
+      <div class="service-title">Yatırım Analizi</div>
+      <div class="service-text">
+        Değer kazanan bölgeler ve yeni proje fırsatları.
+      </div>
     </div>
 
     <div class="service-card">
       <div class="service-icon">🤝</div>
       <div class="service-title">Süreç Yönetimi</div>
-      <div class="service-text">Randevu, evrak, tapu ve tüm adımların profesyonel takibi.</div>
+      <div class="service-text">
+        Randevu, evrak, tapu ve tüm adımların profesyonel takibi.
+      </div>
     </div>
 
   </div>
 </section>
 
+<style>
+  .service-grid{
+    display:grid; grid-template-columns:repeat(3,1fr);
+    gap:20px;
+  }
+  @media(max-width:900px){
+    .service-grid{ grid-template-columns:1fr; }
+  }
+
+  .service-card{
+    padding:18px; border-radius:18px;
+    background:rgba(255,255,255,0.04);
+    border:1px solid rgba(255,255,255,0.08);
+    font-size:14px;
+  }
+  .service-icon{
+    font-size:22px; margin-bottom:10px;
+    background:rgba(255,255,255,0.06);
+    display:inline-block;
+    padding:8px 12px;
+    border-radius:12px;
+  }
+  .service-title{ font-weight:600; font-size:15px; margin-bottom:6px; }
+  .service-text{ color:var(--muted); font-size:13px; }
+</style>
+
 <!-- PORTFÖY -->
 <section id="portfoy" class="section">
-  <div class="section-tag">Güncel portföy</div>
+  <div class="section-tag">Güncel Portföy</div>
   <h2 class="section-title">Örnek İlanlar</h2>
 
   <div class="listing-grid">
 
     <div class="listing-card">
-      <div class="listing-top">
-        <div class="listing-badge">Satılık Daire <span>Örnek</span></div>
+      <div class="listing-content">
         <div class="listing-title">3+1 Aile Dairesi</div>
         <div class="listing-location">Kadıköy / İstanbul</div>
-      </div>
-      <div class="listing-bottom">
-        <div>
-          <div class="listing-meta"><strong>Yaşam için ideal</strong>Ailelere uygun plan</div>
-          <div class="listing-pill-row">
-            <div class="listing-pill">3+1</div><div class="listing-pill">130 m²</div><div class="listing-pill">Site içi</div>
-          </div>
+
+        <div class="listing-tags">
+          <span>3+1</span><span>130 m²</span><span>Site içi</span>
         </div>
+
+        <div class="listing-label">Satılık Daire</div>
       </div>
     </div>
 
     <div class="listing-card">
-      <div class="listing-top">
-        <div class="listing-badge">Kiralık Ofis <span>Örnek</span></div>
+      <div class="listing-content">
         <div class="listing-title">Merkezi Konumda Ofis</div>
         <div class="listing-location">İşlek Cadde / İstanbul</div>
-      </div>
-      <div class="listing-bottom">
-        <div>
-          <div class="listing-meta"><strong>Prestij</strong>Görünür lokasyon</div>
-          <div class="listing-pill-row">
-            <div class="listing-pill">65 m²</div><div class="listing-pill">Asansörlü bina</div>
-          </div>
+
+        <div class="listing-tags">
+          <span>65 m²</span><span>Asansörlü bina</span>
         </div>
+
+        <div class="listing-label">Kiralık Ofis</div>
       </div>
     </div>
 
     <div class="listing-card">
-      <div class="listing-top">
-        <div class="listing-badge">Yatırım Arsası <span>Örnek</span></div>
-        <div class="listing-title">Gelişen Bölge</div>
+      <div class="listing-content">
+        <div class="listing-title">Gelişen Bölge Arsası</div>
         <div class="listing-location">İstanbul</div>
-      </div>
-      <div class="listing-bottom">
-        <div>
-          <div class="listing-meta"><strong>Uzun vadeli değer</strong>Gelişen bölgede yatırım</div>
-          <div class="listing-pill-row">
-            <div class="listing-pill">Yatırım</div><div class="listing-pill">Bölge gelişiyor</div>
-          </div>
+
+        <div class="listing-tags">
+          <span>Yatırım</span><span>Bölge gelişiyor</span>
         </div>
+
+        <div class="listing-label">Yatırım Arsası</div>
       </div>
     </div>
 
   </div>
 </section>
 
-<!-- PDF + OFİS BİLGİLERİ -->
+<style>
+  .listing-grid{
+    display:grid; grid-template-columns:repeat(3,1fr);
+    gap:20px;
+  }
+  @media(max-width:900px){
+    .listing-grid{ grid-template-columns:1fr; }
+  }
+
+  .listing-card{
+    border-radius:18px;
+    background:rgba(255,255,255,0.04);
+    border:1px solid rgba(255,255,255,0.06);
+    padding:18px;
+    min-height:140px;
+  }
+  .listing-title{ font-size:16px; font-weight:600; margin-bottom:6px; }
+  .listing-location{ font-size:13px; color:var(--muted); margin-bottom:14px; }
+  .listing-tags span{
+    font-size:11px;
+    background:rgba(255,255,255,0.06);
+    padding:4px 9px;
+    border-radius:999px;
+    margin-right:6px;
+  }
+  .listing-label{
+    margin-top:14px;
+    font-size:12px;
+    color:var(--accent);
+    font-weight:600;
+    opacity:0.8;
+  }
+</style>
+<!-- PROJELER (PDF + OFİS) -->
 <section id="projeler" class="section">
   <div class="section-tag">Projeler</div>
   <h2 class="section-title">Hava Kent Tuzla – Proje Kataloğu</h2>
@@ -577,8 +577,8 @@
     <iframe src="Hava Kent Tuzla Yeni Katalog v2.pdf"></iframe>
   </div>
 
-  <a href="Hava Kent Tuzla Yeni Katalog v2.pdf" download class="btn" style="margin-top:14px;">
-    PDF İndir
+  <a href="Hava Kent Tuzla Yeni Katalog v2.pdf" download class="btn" style="margin-top:16px;">
+    📥 PDF İndir
   </a>
 
   <div class="office-box">
@@ -591,7 +591,10 @@
 
     <div class="office-row">
       <span class="office-label">Adres:</span>
-      <span class="office-value">Suadiye Mahallesi Bağdat Caddesi Hacı Mavuk İş Merkezi No:357 Daire:2 Kat:1 Kadıköy / İstanbul</span>
+      <span class="office-value">
+        Suadiye Mahallesi Bağdat Caddesi Hacı Mavuk İş Merkezi No:357
+        Daire:2 Kat:1 Kadıköy / İstanbul
+      </span>
     </div>
 
     <div class="office-row">
@@ -606,51 +609,157 @@
   </div>
 </section>
 
+<style>
+  .pdf-wrap{
+    margin-top:24px;
+    padding:18px;
+    background:rgba(255,255,255,0.04);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:18px;
+  }
+  iframe{
+    width:100%; height:600px; border:none; border-radius:12px;
+  }
+  @media(max-width:600px){
+    iframe{ height:400px; }
+  }
+
+  .office-box{
+    margin-top:40px;
+    padding:22px;
+    border-radius:18px;
+    background:rgba(255,255,255,0.04);
+    border:1px solid rgba(255,255,255,0.1);
+  }
+  .office-title{
+    font-size:20px; margin-bottom:16px; color:var(--accent); font-weight:600;
+  }
+  .office-row{ margin-bottom:12px; }
+  .office-label{
+    font-weight:600; font-size:14px; color:var(--accent);
+  }
+  .office-value{
+    font-size:13px; color:var(--muted);
+    display:block; margin-top:4px;
+  }
+</style>
+
 <!-- İLETİŞİM -->
 <section id="iletisim" class="section">
   <div class="section-tag">İletişim</div>
-  <h2 class="section-title">Tanışalım</h2>
+  <h2 class="section-title">Hızlıca iletişime geçin</h2>
 
   <div class="two-col">
-
     <div class="testimonial-card">
-      “Gayrimenkulde en önemli şey güvendir. Doğru bilgi, doğru zamanlama ve doğru iletişimle ilerlemek isteyen herkese yardımcı olmak için buradayım.”
+      “Gayrimenkulde en önemli şey güvendir. Doğru bilgi, doğru zamanlama ve
+      profesyonel iletişimle ilerlemek isteyen herkese yardımcı olmak için buradayım.”
+
       <div class="testimonial-footer">
         <div>
           <div class="testimonial-name">Yusuf</div>
           <div class="testimonial-role">Gayrimenkul Danışmanı</div>
         </div>
-        <span class="badge-pill">Her zaman ulaşabilirsiniz</span>
+        <span class="badge-pill">Ulaşılabilir</span>
       </div>
     </div>
 
     <div class="contact-card">
-      <div class="contact-label">İletişim Kanalları</div>
+      <p style="font-size:13px; margin-bottom:14px; color:var(--muted);">
+        Sizin için en hızlı iletişim kanalları:
+      </p>
 
-      <p style="font-size:12px;color:var(--muted);margin-bottom:8px;">Aşağıdaki platformlardan hızlıca ulaşabilirsiniz:</p>
+      <a href="https://www.instagram.com/yusuf.bhgre_/" target="_blank" class="contact-pill">@yusuf.bhgre_</a>
+      <br><br>
 
-      <a href="https://www.instagram.com/yusuf.bhgre_/" target="_blank" class="contact-pill">@yusuf.bhgre_</a><br><br>
-      <a href="https://www.instagram.com/bhgre_cadde/" target="_blank" class="contact-pill">@bhgre_cadde</a><br><br>
+      <a href="https://www.instagram.com/bhgre_cadde/" target="_blank" class="contact-pill">@bhgre_cadde</a>
+      <br><br>
 
-      <a href="https://wa.me/905051401725" target="_blank" class="btn" style="margin-top:12px;">WhatsApp İletişim</a>
+      <a href="https://wa.me/905051401725" target="_blank" class="btn" style="margin-top:10px;">
+        WhatsApp ile İletişim
+      </a>
     </div>
-
   </div>
 </section>
+
+<style>
+  .two-col{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:24px;
+  }
+  @media(max-width:900px){
+    .two-col{ grid-template-columns:1fr; }
+  }
+
+  .testimonial-card{
+    padding:18px;
+    background:rgba(255,255,255,0.04);
+    border:1px solid rgba(255,255,255,0.06);
+    border-radius:18px;
+    font-size:14px; line-height:1.6;
+    position:relative;
+  }
+  .testimonial-footer{
+    margin-top:18px;
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .testimonial-name{ font-weight:600; }
+  .testimonial-role{ font-size:12px; color:var(--muted); }
+
+  .badge-pill{
+    padding:6px 12px;
+    border-radius:999px;
+    font-size:12px;
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.1);
+  }
+
+  .contact-card{
+    padding:18px;
+    border-radius:18px;
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.08);
+  }
+  .contact-pill{
+    font-size:12px;
+    padding:8px 14px;
+    border-radius:999px;
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(255,255,255,0.08);
+    display:inline-block;
+  }
+</style>
 
 </main>
 
 <!-- FOOTER -->
 <footer>
   © <span id="year"></span> Yusuf · Better Homes and Gardens Real Estate Cadde  
-  <br>Web tasarım: <span style="color:#f97373;">MSSR.WEB</span>
+  <br>Web tasarım: <span style="color:#ff7777;">MSSR.WEB</span>
 </footer>
 
-</div>
+<style>
+  footer{
+    text-align:center;
+    padding:22px;
+    background:rgba(0,0,0,0.35);
+    border-top:1px solid rgba(255,255,255,0.08);
+    margin-top:50px;
+    font-size:13px;
+    color:var(--muted);
+  }
+</style>
 
+<!-- SCRIPTS -->
 <script>
-document.getElementById("year").textContent = new Date().getFullYear();
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  function toggleMenu(){
+    document.getElementById("mobileMenu").classList.toggle("show");
+  }
 </script>
+
+</div>
 
 </body>
 </html>
